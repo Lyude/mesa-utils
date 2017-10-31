@@ -22,7 +22,28 @@ deps = [
     common_dep,
     x11_dep,
     gl_dep,
+    m_dep,
 ]
 
-executable('glxinfo', ['glxinfo.c', '../glinfo_common.c'],
-           dependencies : deps, install : true, include_directories : inc_dir)
+libpbutil = static_library('pbutil', 'pbutil.c', include_directories : inc_dir)
+
+executables = [
+    'glxinfo',
+    'glxgears',
+    'glxgears_pixmap',
+]
+foreach e : executables
+    executable(e, [e + '.c', '../glinfo_common.c'],
+               dependencies : deps, include_directories : inc_dir,
+               install : true)
+endforeach
+
+executables = [
+    'glxgears_fbconfig'
+]
+foreach e : executables
+    executable(e, [e + '.c', '../glinfo_common.c'],
+               dependencies: deps, include_directories : inc_dir,
+               link_with : libpbutil,
+               install : true)
+endforeach

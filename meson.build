@@ -30,6 +30,11 @@ glx_option = get_option('glx')
 
 epoxy_dep = dependency('epoxy', required: true)
 gl_dep = dependency('gl', required: glx_option == 'true')
+m_dep = []
+
+if host_system.startswith('linux')
+    m_dep = cc.find_library('m')
+endif
 
 common_dep = [
     epoxy_dep,
