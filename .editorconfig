@@ -1,0 +1,13 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.{c,h}]
+indent_size = 3
+
+[{meson.build,meson_options.txt}]
+indent_size = 4
