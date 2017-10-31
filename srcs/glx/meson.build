@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-if build_egl
-    subdir('egl')
-endif
+deps = [
+    common_dep,
+    x11_dep,
+    gl_dep,
+]
 
-if build_glx
-    subdir('glx')
-endif
+executable('glxinfo', ['glxinfo.c', '../glinfo_common.c'],
+           dependencies : deps, install : true, include_directories : inc_dir)

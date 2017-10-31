@@ -23,4 +23,5 @@ deps = [
     egl_dep,
 ]
 
-executable('eglinfo', 'eglinfo.c', dependencies : deps, install : true)
+executable('eglinfo', 'eglinfo.c', dependencies : deps, install : true,
+           include_directories: inc_dir)

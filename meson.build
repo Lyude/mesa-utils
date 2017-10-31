@@ -23,15 +23,26 @@ project('mesa-utils', 'c', license : 'MIT')
 host_system = host_machine.system()
 cc = meson.get_compiler('c')
 
+inc_dir = include_directories('include')
+
+egl_option = get_option('egl')
+glx_option = get_option('glx')
+
 epoxy_dep = dependency('epoxy', required: true)
+gl_dep = dependency('gl', required: glx_option == 'true')
+
 common_dep = [
     epoxy_dep,
 ]
 
-egl_option = get_option('egl')
 if egl_option != 'false'
     egl_dep = dependency('egl', required: egl_option == 'true')
     build_egl = egl_dep.found()
+endif
+
+if glx_option != 'false'
+    x11_dep = dependency('x11', required: glx_option == 'true')
+    build_glx = x11_dep.found() and gl_dep.found()
 endif
 
 if cc.get_id() == 'msvc' # TODO
