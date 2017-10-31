@@ -23,13 +23,16 @@ project('mesa-utils', 'c', license : 'MIT')
 host_system = host_machine.system()
 cc = meson.get_compiler('c')
 
-with_egl = get_option('egl')
-
 epoxy_dep = dependency('epoxy', required: true)
-
 common_dep = [
     epoxy_dep,
 ]
+
+egl_option = get_option('egl')
+if egl_option != 'no'
+    egl_dep = dependency('egl', required: egl_option == 'true')
+    build_egl = egl_dep.found()
+endif
 
 if cc.get_id() == 'msvc' # TODO
     error('MSVC support TODO, sorry')

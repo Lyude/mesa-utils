@@ -1,2 +1,2 @@
-option('egl', type : 'boolean', value : true,
+option('egl', type : 'combo', choices : ['true', 'false', 'auto'], value : 'auto',
        description : 'Build EGL utilities')

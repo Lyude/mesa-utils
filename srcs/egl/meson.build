@@ -18,9 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-egl_dep = [
+deps = [
     common_dep,
-    dependency('egl', required : true)
+    egl_dep,
 ]
 
-executable('eglinfo', 'eglinfo.c', dependencies : egl_dep, install : true)
+executable('eglinfo', 'eglinfo.c', dependencies : deps, install : true)
