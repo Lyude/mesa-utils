@@ -29,7 +29,7 @@ common_dep = [
 ]
 
 egl_option = get_option('egl')
-if egl_option != 'no'
+if egl_option != 'false'
     egl_dep = dependency('egl', required: egl_option == 'true')
     build_egl = egl_dep.found()
 endif
