@@ -11,3 +11,6 @@ indent_size = 3
 
 [{meson.build,meson_options.txt}]
 indent_size = 4
+
+[.clang-format]
+indent_size = 4

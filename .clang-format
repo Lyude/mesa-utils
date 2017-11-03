@@ -1,0 +1,34 @@
+---
+# https://www.mesa3d.org/codingstyle.html
+Language: Cpp
+IndentWidth: 3
+AlignAfterOpenBracket: Align
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakAfterReturnType: TopLevelDefinitions
+AlwaysBreakBeforeMultilineStrings: false
+BreakBeforeBinaryOperators: None # TODO
+BreakBeforeBraces: Linux
+ColumnLimit: 78
+ContinuationIndentWidth: 3 # TODO
+DerivePointerAlignment: true
+# TODO ForEachMacros
+IndentCaseLabels: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+SpaceAfterCStyleCast: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInCStyleCastParentheses: false
+UseTab: Never
+
+PenaltyBreakBeforeFirstCallParameter: 2
+
+
+# vim: ft=yaml :
