@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 1999-2014  Brian Paul   All Rights Reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
  * and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
@@ -180,7 +180,7 @@ enum_name(GLenum val)
 static int
 compare_string_ptr(const void *p1, const void *p2)
 {
-   return strcmp(* (char * const *) p1, * (char * const *) p2);
+   return strcmp(*(char *const *) p1, *(char *const *) p2);
 }
 
 /*
@@ -206,7 +206,7 @@ print_extension_list(const char *ext, GLboolean singleLine)
       if ((ext[j] == ' ' || ext[j] == 0) && ext[j - 1] != ' ') {
          ++num_extensions;
       }
-   } while(ext[j++]);
+   } while (ext[j++]);
 
    /* copy individual extensions to an array */
    extensions = malloc(num_extensions * sizeof *extensions);
@@ -246,7 +246,8 @@ print_extension_list(const char *ext, GLboolean singleLine)
    assert(k == num_extensions);
 
    /* sort extensions alphabetically */
-   qsort(extensions, num_extensions, sizeof extensions[0], compare_string_ptr);
+   qsort(extensions, num_extensions, sizeof extensions[0],
+         compare_string_ptr);
 
    /* print the extensions */
    width = indent;
@@ -269,8 +270,7 @@ print_extension_list(const char *ext, GLboolean singleLine)
          printf("\n");
          width = indent;
          printf("%s", indentString);
-      }
-      else if (k < (num_extensions -1)) {
+      } else if (k < (num_extensions - 1)) {
          printf(", ");
          width += 2;
       }
@@ -282,8 +282,6 @@ print_extension_list(const char *ext, GLboolean singleLine)
    }
    free(extensions);
 }
-
-
 
 
 /**
@@ -302,17 +300,18 @@ build_core_profile_extension_list(const struct ext_functions *extfuncs)
    for (i = 0; i < n; i++) {
       const char *ext = (const char *) extfuncs->GetStringi(GL_EXTENSIONS, i);
       if (ext)
-          totalLen += strlen(ext) + 1; /* plus a space */
+         totalLen += strlen(ext) + 1; /* plus a space */
    }
 
    if (!totalLen)
-     return NULL;
+      return NULL;
 
    buffer = malloc(totalLen + 1);
    if (buffer) {
       int pos = 0;
       for (i = 0; i < n; i++) {
-         const char *ext = (const char *) extfuncs->GetStringi(GL_EXTENSIONS, i);
+         const char *ext =
+            (const char *) extfuncs->GetStringi(GL_EXTENSIONS, i);
          strcpy(buffer + pos, ext);
          pos += strlen(ext);
          buffer[pos++] = ' ';
@@ -334,13 +333,11 @@ extension_supported(const char *ext, const char *extensionsList)
          int extLen = strlen(ext);
          if (p[extLen] == 0 || p[extLen] == ' ') {
             return 1;
-         }
-         else {
+         } else {
             /* We found a superset string, keep looking */
             extensionsList += extLen;
          }
-      }
-      else {
+      } else {
          break;
       }
    }
@@ -371,8 +368,7 @@ version_supported(const char *verString, int verNum)
 }
 
 
-struct token_name
-{
+struct token_name {
    GLenum token;
    const char *name;
 };
@@ -387,7 +383,7 @@ print_shader_limit_list(const struct token_name *lim)
    for (i = 0; lim[i].token; i++) {
       glGetIntegerv(lim[i].token, max);
       if (glGetError() == GL_NO_ERROR) {
-	 printf("        %s = %d\n", lim[i].name, max[0]);
+         printf("        %s = %d\n", lim[i].name, max[0]);
       }
    }
 }
@@ -450,7 +446,7 @@ print_shader_limits(GLenum target)
  * Print interesting limits for vertex/fragment programs.
  */
 static void
-print_program_limits(GLenum target, 
+print_program_limits(GLenum target,
                      const struct ext_functions *extfuncs)
 {
 #if defined(GL_ARB_vertex_program) || defined(GL_ARB_fragment_program)
@@ -488,11 +484,9 @@ print_program_limits(GLenum target,
 
    if (target == GL_VERTEX_PROGRAM_ARB) {
       printf("    GL_VERTEX_PROGRAM_ARB:\n");
-   }
-   else if (target == GL_FRAGMENT_PROGRAM_ARB) {
+   } else if (target == GL_FRAGMENT_PROGRAM_ARB) {
       printf("    GL_FRAGMENT_PROGRAM_ARB:\n");
-   }
-   else {
+   } else {
       return; /* something's wrong */
    }
 
@@ -580,10 +574,10 @@ print_limits(const char *extensions, const char *oglstring, int version,
       { 1, GL_MAX_SAMPLES, "GL_MAX_SAMPLES", "GL_ARB_framebuffer_object" },
 #endif
 #if defined (GL_EXT_transform_feedback)
-     { 1, GL_MAX_TRANSFORM_FEEDBACK_BUFFERS, "GL_MAX_TRANSFORM_FEEDBACK_BUFFERS", "GL_EXT_transform_feedback" },
-     { 1, GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS", "GL_EXT_transform_feedback" },
-     { 1, GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS", "GL_EXT_transform_feedback", },
-     { 1, GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS", "GL_EXT_transform_feedback" },
+      { 1, GL_MAX_TRANSFORM_FEEDBACK_BUFFERS, "GL_MAX_TRANSFORM_FEEDBACK_BUFFERS", "GL_EXT_transform_feedback" },
+      { 1, GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS", "GL_EXT_transform_feedback" },
+      { 1, GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS", "GL_EXT_transform_feedback", },
+      { 1, GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS_EXT, "GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS", "GL_EXT_transform_feedback" },
 #endif
 #if defined (GL_ARB_texture_buffer_object)
       { 1, GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT, "GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT", "GL_ARB_texture_buffer_object" },
@@ -637,8 +631,9 @@ print_limits(const char *extensions, const char *oglstring, int version,
       extfuncs->GetConvolutionParameteriv(GL_CONVOLUTION_2D,
                                           GL_MAX_CONVOLUTION_WIDTH, max);
       extfuncs->GetConvolutionParameteriv(GL_CONVOLUTION_2D,
-                                          GL_MAX_CONVOLUTION_HEIGHT, max+1);
-      printf("    GL_MAX_CONVOLUTION_WIDTH/HEIGHT = %d, %d\n", max[0], max[1]);
+                                          GL_MAX_CONVOLUTION_HEIGHT, max + 1);
+      printf("    GL_MAX_CONVOLUTION_WIDTH/HEIGHT = %d, %d\n", max[0],
+             max[1]);
    }
 
    if (extension_supported("GL_ARB_texture_compression", extensions)) {
@@ -673,7 +668,6 @@ print_limits(const char *extensions, const char *oglstring, int version,
       print_shader_limits(GL_GEOMETRY_SHADER);
    }
 }
-
 
 
 /**
@@ -773,35 +767,26 @@ parse_args(int argc, char *argv[], struct options *options)
       if (strcmp(argv[i], "-display") == 0 && i + 1 < argc) {
          options->displayName = argv[i + 1];
          i++;
-      }
-      else if (strcmp(argv[i], "-i") == 0) {
+      } else if (strcmp(argv[i], "-i") == 0) {
          options->allowDirect = GL_FALSE;
-      }
-      else
+      } else
 #endif
       if (strcmp(argv[i], "-t") == 0) {
          options->mode = Wide;
-      }
-      else if (strcmp(argv[i], "-v") == 0) {
+      } else if (strcmp(argv[i], "-v") == 0) {
          options->mode = Verbose;
-      }
-      else if (strcmp(argv[i], "-B") == 0) {
+      } else if (strcmp(argv[i], "-B") == 0) {
          options->mode = Brief;
-      }
-      else if (strcmp(argv[i], "-b") == 0) {
+      } else if (strcmp(argv[i], "-b") == 0) {
          options->findBest = GL_TRUE;
-      }
-      else if (strcmp(argv[i], "-l") == 0) {
+      } else if (strcmp(argv[i], "-l") == 0) {
          options->limits = GL_TRUE;
-      }
-      else if (strcmp(argv[i], "-h") == 0) {
+      } else if (strcmp(argv[i], "-h") == 0) {
          usage();
          exit(0);
-      }
-      else if(strcmp(argv[i], "-s") == 0) {
+      } else if (strcmp(argv[i], "-s") == 0) {
          options->singleLine = GL_TRUE;
-      }
-      else {
+      } else {
          printf("Unknown option `%s'\n", argv[i]);
          usage();
          exit(0);
@@ -813,27 +798,27 @@ static void
 query_ATI_meminfo(void)
 {
 #ifdef GL_ATI_meminfo
-    int i[4];
+   int i[4];
 
-    printf("Memory info (GL_ATI_meminfo):\n");
+   printf("Memory info (GL_ATI_meminfo):\n");
 
-    glGetIntegerv(GL_VBO_FREE_MEMORY_ATI, i);
-    printf("    VBO free memory - total: %u MB, largest block: %u MB\n",
-           i[0] / 1024, i[1] / 1024);
-    printf("    VBO free aux. memory - total: %u MB, largest block: %u MB\n",
-           i[2] / 1024, i[3] / 1024);
+   glGetIntegerv(GL_VBO_FREE_MEMORY_ATI, i);
+   printf("    VBO free memory - total: %u MB, largest block: %u MB\n",
+          i[0] / 1024, i[1] / 1024);
+   printf("    VBO free aux. memory - total: %u MB, largest block: %u MB\n",
+          i[2] / 1024, i[3] / 1024);
 
-    glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, i);
-    printf("    Texture free memory - total: %u MB, largest block: %u MB\n",
-           i[0] / 1024, i[1] / 1024);
-    printf("    Texture free aux. memory - total: %u MB, largest block: %u MB\n",
-           i[2] / 1024, i[3] / 1024);
+   glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, i);
+   printf("    Texture free memory - total: %u MB, largest block: %u MB\n",
+          i[0] / 1024, i[1] / 1024);
+   printf("    Texture free aux. memory - total: %u MB, largest block: %u MB\n",
+          i[2] / 1024, i[3] / 1024);
 
-    glGetIntegerv(GL_RENDERBUFFER_FREE_MEMORY_ATI, i);
-    printf("    Renderbuffer free memory - total: %u MB, largest block: %u MB\n",
-           i[0] / 1024, i[1] / 1024);
-    printf("    Renderbuffer free aux. memory - total: %u MB, largest block: %u MB\n",
-           i[2] / 1024, i[3] / 1024);
+   glGetIntegerv(GL_RENDERBUFFER_FREE_MEMORY_ATI, i);
+   printf("    Renderbuffer free memory - total: %u MB, largest block: %u MB\n",
+          i[0] / 1024, i[1] / 1024);
+   printf("    Renderbuffer free aux. memory - total: %u MB, largest block: %u MB\n",
+          i[2] / 1024, i[3] / 1024);
 #endif
 }
 
@@ -841,18 +826,19 @@ static void
 query_NVX_gpu_memory_info(void)
 {
 #ifdef GL_NVX_gpu_memory_info
-    int i;
+   int i;
 
-    printf("Memory info (GL_NVX_gpu_memory_info):\n");
+   printf("Memory info (GL_NVX_gpu_memory_info):\n");
 
-    glGetIntegerv(GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &i);
-    printf("    Dedicated video memory: %u MB\n", i / 1024);
+   glGetIntegerv(GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &i);
+   printf("    Dedicated video memory: %u MB\n", i / 1024);
 
-    glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &i);
-    printf("    Total available memory: %u MB\n", i / 1024);
+   glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &i);
+   printf("    Total available memory: %u MB\n", i / 1024);
 
-    glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &i);
-    printf("    Currently available dedicated video memory: %u MB\n", i / 1024);
+   glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &i);
+   printf("    Currently available dedicated video memory: %u MB\n",
+          i / 1024);
 #endif
 }
 
