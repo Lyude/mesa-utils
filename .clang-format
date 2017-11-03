@@ -8,7 +8,7 @@ AlignOperands: true
 AllowShortBlocksOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: false
-AllowShortIfStatementsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterReturnType: TopLevelDefinitions
 AlwaysBreakBeforeMultilineStrings: false
