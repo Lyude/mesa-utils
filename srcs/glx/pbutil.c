@@ -9,9 +9,9 @@
  * to the GLX_SGIX_fbconfig/pbuffer extensions.
  */
 
+#include "pbutil.h"
 #include <stdio.h>
 #include <string.h>
-#include "pbutil.h"
 
 
 /**
@@ -44,8 +44,8 @@ QueryFBConfig(Display *dpy, int screen)
    {
       char *extensions;
       extensions = (char *) glXQueryServerString(dpy, screen, GLX_EXTENSIONS);
-      if (extensions && strstr(extensions,"GLX_SGIX_fbconfig")) {
-	 return 2;
+      if (extensions && strstr(extensions, "GLX_SGIX_fbconfig")) {
+         return 2;
       }
    }
 
@@ -70,11 +70,10 @@ QueryPbuffers(Display *dpy, int screen)
       char *extensions;
       extensions = (char *) glXQueryServerString(dpy, screen, GLX_EXTENSIONS);
       if (extensions && strstr(extensions, "GLX_SGIX_pbuffer"))
-	 return 2;
+         return 2;
       else
-	 return 0;
-   }
-   else
+         return 0;
+   } else
       return ret;
 }
 
@@ -146,8 +145,7 @@ GetFBConfigAttrib(Display *dpy, int screen,
 #elif defined(GLX_SGIX_fbconfig)
                   const GLXFBConfigSGIX config,
 #endif
-                  int attrib
-                  )
+                  int attrib)
 {
    int fbcSupport = QueryFBConfig(dpy, screen);
    int value = 0;
@@ -171,10 +169,9 @@ GetFBConfigAttrib(Display *dpy, int screen,
       return value;
    }
 #endif
-   
+
    return value;
 }
-
 
 
 /**
@@ -188,7 +185,7 @@ void
 PrintFBConfigInfo(Display *dpy, int screen, FBCONFIG config, Bool horizFormat)
 {
    PBUFFER pBuffer;
-   int width=2, height=2;
+   int width = 2, height = 2;
    int bufferSize, level, doubleBuffer, stereo, auxBuffers;
    int redSize, greenSize, blueSize, alphaSize;
    int depthSize, stencilSize;
@@ -249,22 +246,20 @@ PrintFBConfigInfo(Display *dpy, int screen, FBCONFIG config, Bool horizFormat)
       else if (xVisual==GLX_PSEUDO_COLOR)  printf("PseudoColor ");
       else if (xVisual==GLX_TRUE_COLOR)    printf("TrueColor   ");
       else if (xVisual==GLX_DIRECT_COLOR)  printf("DirectColor ");
-      else                            printf("  -none-    ");
+      else                                 printf("  -none-    ");
       printf(" %3d %3d   %s   %s  %s   %2s   ", bufferSize, level,
-	     (renderType & GLX_RGBA_BIT_SGIX) ? "y" : ".",
-	     (renderType & GLX_COLOR_INDEX_BIT_SGIX) ? "y" : ".",
-	     doubleBuffer ? "y" : ".",
-	     stereo ? "y" : ".");
+             (renderType & GLX_RGBA_BIT_SGIX) ? "y" : ".",
+             (renderType & GLX_COLOR_INDEX_BIT_SGIX) ? "y" : ".",
+             doubleBuffer ? "y" : ".", stereo ? "y" : ".");
       printf("%2d %2d %2d %2d  ", redSize, greenSize, blueSize, alphaSize);
       printf("%2d %2d  ", depthSize, stencilSize);
       printf("%2d %2d %2d %2d", accumRedSize, accumGreenSize, accumBlueSize,
-	     accumAlphaSize);
+             accumAlphaSize);
       printf("    %2d    %2d", sampleBuffers, samples);
       printf("       %s       %c", pBuffer ? "y" : ".",
              ".y"[floatComponents]);
       printf("\n");
-   }
-   else {
+   } else {
       printf("Id 0x%x\n", id);
       printf("  Buffer Size: %d\n", bufferSize);
       printf("  Level: %d\n", level);
@@ -284,13 +279,13 @@ PrintFBConfigInfo(Display *dpy, int screen, FBCONFIG config, Bool horizFormat)
       printf("  Sample Buffers: %d\n", sampleBuffers);
       printf("  Samples/Pixel: %d\n", samples);
       printf("  Drawable Types: ");
-      if (drawableType & GLX_WINDOW_BIT)  printf("Window ");
-      if (drawableType & GLX_PIXMAP_BIT)  printf("Pixmap ");
-      if (drawableType & GLX_PBUFFER_BIT)  printf("PBuffer");
+      if (drawableType & GLX_WINDOW_BIT) printf("Window ");
+      if (drawableType & GLX_PIXMAP_BIT) printf("Pixmap ");
+      if (drawableType & GLX_PBUFFER_BIT) printf("PBuffer");
       printf("\n");
       printf("  Render Types: ");
-      if (renderType & GLX_RGBA_BIT_SGIX)  printf("RGBA ");
-      if (renderType & GLX_COLOR_INDEX_BIT_SGIX)  printf("CI ");
+      if (renderType & GLX_RGBA_BIT_SGIX) printf("RGBA ");
+      if (renderType & GLX_COLOR_INDEX_BIT_SGIX) printf("CI ");
       printf("\n");
       printf("  X Renderable: %s\n", xRenderable ? "yes" : "no");
 
@@ -308,7 +303,6 @@ PrintFBConfigInfo(Display *dpy, int screen, FBCONFIG config, Bool horizFormat)
       DestroyPbuffer(dpy, screen, pBuffer);
    }
 }
-
 
 
 GLXContext
@@ -330,9 +324,11 @@ CreateContext(Display *dpy, int screen, FBCONFIG config)
 #if defined(GLX_SGIX_fbconfig) && defined(GLX_SGIX_pbuffer)
    if (fbcSupport == 2) {
       GLXContext c;
-      c = glXCreateContextWithConfigSGIX(dpy, config, GLX_RGBA_TYPE_SGIX, NULL, True);
+      c = glXCreateContextWithConfigSGIX(dpy, config, GLX_RGBA_TYPE_SGIX,
+                                         NULL, True);
       if (!c) {
-         c = glXCreateContextWithConfigSGIX(dpy, config, GLX_RGBA_TYPE_SGIX, NULL, False);
+         c = glXCreateContextWithConfigSGIX(dpy, config, GLX_RGBA_TYPE_SGIX,
+                                            NULL, False);
       }
       return c;
    }
@@ -350,10 +346,11 @@ DestroyContext(Display *dpy, GLXContext ctx)
 
 /* This is only used by CreatePbuffer() */
 static int XErrorFlag = 0;
-static int HandleXError(Display *dpy, XErrorEvent *event)
+static int
+HandleXError(Display *dpy, XErrorEvent *event)
 {
-    XErrorFlag = 1;
-    return 0;
+   XErrorFlag = 1;
+   return 0;
 }
 
 
@@ -393,8 +390,7 @@ CreatePbuffer(Display *dpy, int screen, FBCONFIG config,
       attribs[i++] = largest;
       attribs[i++] = 0;
       pBuffer = glXCreatePbuffer(dpy, config, attribs);
-   }
-   else
+   } else
 #endif
 #if defined(GLX_SGIX_fbconfig) && defined(GLX_SGIX_pbuffer)
    if (pbSupport == 2) {
@@ -405,8 +401,7 @@ CreatePbuffer(Display *dpy, int screen, FBCONFIG config,
       attribs[i++] = largest;
       attribs[i++] = 0;
       pBuffer = glXCreateGLXPbufferSGIX(dpy, config, width, height, attribs);
-   }
-   else
+   } else
 #endif
    {
       pBuffer = None;
@@ -420,8 +415,7 @@ CreatePbuffer(Display *dpy, int screen, FBCONFIG config,
    if (!XErrorFlag && pBuffer != None) {
       /*printf("config %d worked!\n", i);*/
       return pBuffer;
-   }
-   else {
+   } else {
       return None;
    }
 }
