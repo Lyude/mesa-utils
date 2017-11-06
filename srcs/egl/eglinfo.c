@@ -210,31 +210,31 @@ main(int argc, char *argv[])
    printf("\n");
 
    if (strstr(clientext, "EGL_EXT_platform_base")) {
-       PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplay =
-           (PFNEGLGETPLATFORMDISPLAYEXTPROC)
-           eglGetProcAddress("eglGetPlatformDisplayEXT");
-       if (strstr(clientext, "EGL_KHR_platform_android"))
-           ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_ANDROID_KHR,
-                                                  EGL_DEFAULT_DISPLAY,
-                                                  NULL), "Android platform");
-       if (strstr(clientext, "EGL_MESA_platform_gbm") ||
-           strstr(clientext, "EGL_KHR_platform_gbm"))
-           ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_GBM_MESA,
-                                                  EGL_DEFAULT_DISPLAY,
-                                                  NULL), "GBM platform");
-       if (strstr(clientext, "EGL_EXT_platform_wayland") ||
-           strstr(clientext, "EGL_KHR_platform_wayland"))
-           ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_WAYLAND_EXT,
-                                                  EGL_DEFAULT_DISPLAY,
-                                                  NULL), "Wayland platform");
-       if (strstr(clientext, "EGL_EXT_platform_x11") ||
-           strstr(clientext, "EGL_KHR_platform_x11"))
-           ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_X11_EXT,
-                                                  EGL_DEFAULT_DISPLAY,
-                                                  NULL), "X11 platform");
-   }
-   else {
-      ret = doOneDisplay(eglGetDisplay(EGL_DEFAULT_DISPLAY), "Default display");
+      PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplay =
+         (PFNEGLGETPLATFORMDISPLAYEXTPROC) eglGetProcAddress(
+            "eglGetPlatformDisplayEXT");
+      if (strstr(clientext, "EGL_KHR_platform_android"))
+         ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_ANDROID_KHR,
+                                                EGL_DEFAULT_DISPLAY, NULL),
+                             "Android platform");
+      if (strstr(clientext, "EGL_MESA_platform_gbm") ||
+          strstr(clientext, "EGL_KHR_platform_gbm"))
+         ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_GBM_MESA,
+                                                EGL_DEFAULT_DISPLAY, NULL),
+                             "GBM platform");
+      if (strstr(clientext, "EGL_EXT_platform_wayland") ||
+          strstr(clientext, "EGL_KHR_platform_wayland"))
+         ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_WAYLAND_EXT,
+                                                EGL_DEFAULT_DISPLAY, NULL),
+                             "Wayland platform");
+      if (strstr(clientext, "EGL_EXT_platform_x11") ||
+          strstr(clientext, "EGL_KHR_platform_x11"))
+         ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_X11_EXT,
+                                                EGL_DEFAULT_DISPLAY, NULL),
+                             "X11 platform");
+   } else {
+      ret =
+         doOneDisplay(eglGetDisplay(EGL_DEFAULT_DISPLAY), "Default display");
    }
 
    return ret;
